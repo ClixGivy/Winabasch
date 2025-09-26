@@ -26,19 +26,33 @@ async function loadCandidates(ip) {
   const container = document.getElementById("candidates");
   container.innerHTML = "";
 
+  // Calcul du total de votes (pour faire les cotes)
+  let totalVotes = 0;
+  snapshot.forEach(doc => totalVotes += doc.data().votes);
+
   snapshot.forEach(doc => {
     let data = doc.data();
+
+    // calcul de la cote
+    let cote;
+    if (data.votes === 0 || totalVotes === 0) {
+      cote = 2.00; // valeur par défaut
+    } else {
+      cote = (totalVotes / data.votes).toFixed(2);
+    }
+
     let div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `
       <h2>${data.name}</h2>
       <p>Votes : ${data.votes}</p>
-      <p>Cote : ${(100 / (data.votes+1)).toFixed(2)}%</p>
+      <p>Cote : ${cote}</p>
       <button onclick="vote('${doc.id}', '${ip}')">Voter</button>
     `;
     container.appendChild(div);
   });
 }
+
 
 // --- Vérifier et voter ---
 async function vote(candidateId, ip) {
