@@ -1,66 +1,112 @@
+/* --- GLOBAL --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 body {
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  background: linear-gradient(135deg, #1a1a1a, #333); /* fond plus sombre et moderne */
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #121212, #1a1a1a);
+  color: #e0e0e0;
   margin: 0;
-  padding: 20px;
-  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* LOGO */
 #imgLogo {
-  color: #ff3c3c; /* rouge Winamax */
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  font-weight: 600;
+  font-size: 3rem;
+  color: #bb2e2e; /* rouge foncé, mature */
+  letter-spacing: 0.1em;
+  margin-bottom: 40px;
+  user-select: none;
+  text-shadow: 0 0 5px rgba(187, 46, 46, 0.7);
 }
 
+/* CARDS CONTAINER */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
+  gap: 28px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* CARD STYLE */
 .card {
-  background: #222; /* carte sombre */
-  border-radius: 15px;
-  padding: 20px;
-  width: 250px;
-  box-shadow: 0 8px 20px rgba(255,60,60,0.3); /* accent rouge */
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: 2px solid #ff3c3c;
+  background: #1f1f1f;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(187, 46, 46, 0.15);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default;
+  user-select: none;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(255,60,60,0.5);
+  box-shadow: 0 10px 20px rgba(187, 46, 46, 0.3);
+  transform: translateY(-6px);
 }
 
+/* CARD TITLE */
 .card h2 {
-  margin: 0 0 10px;
-  color: #ff7700; /* orange vibrant pour titres */
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+  color: #d64545;
+  letter-spacing: 0.04em;
+  user-select: text;
 }
 
+/* CARD PARAGRAPHS */
 .card p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #ccc;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #bbb;
+  margin: 10px 0;
+  user-select: text;
 }
 
+/* BUTTON */
 button {
-  padding: 12px 25px;
-  margin-top: 10px;
-  background: linear-gradient(45deg, #ff3c3c, #ff7700);
-  color: white;
+  margin-top: 18px;
+  padding: 14px 32px;
+  border-radius: 9999px;
   border: none;
-  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(90deg, #bb2e2e 0%, #d64545 100%);
+  box-shadow: 0 4px 10px rgba(219, 65, 65, 0.3);
   cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(255,60,60,0.4);
-  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  user-select: none;
 }
 
 button:hover {
-  background: linear-gradient(45deg, #ff7700, #ff3c3c);
+  background: linear-gradient(90deg, #d64545 0%, #bb2e2e 100%);
+  box-shadow: 0 8px 20px rgba(219, 65, 65, 0.5);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255,60,60,0.6);
+}
+
+button:focus {
+  outline: 2px solid #d64545;
+  outline-offset: 3px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 720px) {
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 320px;
+  }
 }
