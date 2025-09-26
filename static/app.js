@@ -20,26 +20,26 @@ async function getUserIP() {
   return data.ip;
 }
 
-// --- Charger candidats ---
 async function loadCandidates(ip) {
   const snapshot = await db.collection("candidates").get();
   const container = document.getElementById("candidates");
   container.innerHTML = "";
 
-  // Calcul du total de votes (pour faire les cotes)
   let totalVotes = 0;
   snapshot.forEach(doc => totalVotes += doc.data().votes);
+
+  const numCandidates = snapshot.size;
+  const adjustedTotal = totalVotes + numCandidates; // lissage
 
   snapshot.forEach(doc => {
     let data = doc.data();
 
-    // calcul de la cote
-    let cote;
-    if (data.votes === 0 || totalVotes === 0) {
-      cote = 2.00; // valeur par défaut
-    } else {
-      cote = (totalVotes / data.votes).toFixed(2);
-    }
+    // Lissage : +1 vote fictif
+    let adjustedVotes = data.votes + 1;
+    let voteRatio = adjustedVotes / adjustedTotal;
+
+    // Calcul de la cote inversée proportionnelle
+    let cote = (1 / voteRatio).toFixed(2);
 
     let div = document.createElement("div");
     div.className = "card";
@@ -52,6 +52,7 @@ async function loadCandidates(ip) {
     container.appendChild(div);
   });
 }
+
 
 
 // --- Vérifier et voter ---
