@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Pronostics</title>
+  <link rel="stylesheet" href="../style/style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <h1>⚙️ Admin - Pronostics</h1>
+
+  <!-- Formulaire de login -->
+  <div id="loginForm">
+    <p>🔒 Accès réservé</p>
+    <input type="password" id="adminPassword" placeholder="Mot de passe">
+    <button onclick="checkPassword()">Entrer</button>
+  </div>
+
+  <!-- Zone admin cachée par défaut -->
+  <div id="adminPanel" style="display:none;">
+    <h2>Ajouter un candidat</h2>
+    <form id="addCandidateForm">
+      <input type="text" id="name" placeholder="Nom Prénom" required>
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Liste des candidats</h2>
+    <div id="candidatesList"></div>
+  </div>
+
+  <script src="../static/admin.js"></script>
+</body>
+</html>
