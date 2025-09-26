@@ -20,38 +20,53 @@ async function getUserIP() {
   return data.ip;
 }
 
+//Gere les candidats et leurs côtes
 async function loadCandidates(ip) {
   const snapshot = await db.collection("candidates").get();
   const container = document.getElementById("candidates");
   container.innerHTML = "";
 
   let totalVotes = 0;
-  snapshot.forEach(doc => totalVotes += doc.data().votes);
-
-  const numCandidates = snapshot.size;
-  const adjustedTotal = totalVotes + numCandidates; // lissage
-
+  const candidates = [];
   snapshot.forEach(doc => {
     let data = doc.data();
+    candidates.push({ id: doc.id, votes: data.votes, name: data.name });
+    totalVotes += data.votes;
+  });
 
-    // Lissage : +1 vote fictif
-    let adjustedVotes = data.votes + 1;
-    let voteRatio = adjustedVotes / adjustedTotal;
+  const numCandidates = candidates.length;
+  const adjustedTotal = totalVotes + numCandidates;
 
-    // Calcul de la cote inversée proportionnelle
-    let cote = (1 / voteRatio).toFixed(2);
+  // Calculer toutes les probabilités
+  let probs = candidates.map(c => (c.votes + 1) / adjustedTotal);
+
+  // Calculer la moyenne des cotes brutes
+  let rawCotes = probs.map(p => 1 / p);
+  let averageRawCote = rawCotes.reduce((a, b) => a + b, 0) / numCandidates;
+
+  // Valeur cible pour la cote moyenne (par exemple 50 au départ)
+  const baseCote = totalVotes === 0 ? 50 : averageRawCote;
+
+  // Affichage
+  candidates.forEach((c, i) => {
+    let rawCote = rawCotes[i];
+
+    // Normaliser la cote pour que la moyenne globale soit baseCote
+    let normalizedCote = (rawCote * baseCote / averageRawCote).toFixed(2);
 
     let div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `
-      <h2>${data.name}</h2>
-      <p>Votes : ${data.votes}</p>
-      <p>Cote : ${cote}</p>
-      <button onclick="vote('${doc.id}', '${ip}')">Voter</button>
+      <h2>${c.name}</h2>
+      <p>Votes : ${c.votes}</p>
+      <p>Cote : ${normalizedCote}</p>
+      <button onclick="vote('${c.id}', '${ip}')">Voter</button>
     `;
     container.appendChild(div);
   });
 }
+
+
 
 
 
